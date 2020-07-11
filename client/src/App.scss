@@ -1,0 +1,17 @@
+input {
+  text-align: right !important;
+}
+
+input,
+html {
+  direction: rtl !important;
+}
+
+.icon {
+  margin: 10px !important;
+  cursor: pointer;
+}
+
+.left.icon {
+  margin-bottom: 50px !important;
+}
