@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import User from '../models/user';
+import { Request, Response, NextFunction } from "express";
+import User from "../models/user";
 
 interface IGetUserAuthInfoRequest extends Request {
+  cookies: any;
   user: any;
 }
 
@@ -10,7 +11,7 @@ const auth = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userId: string = req.cookies['userid'];
+  const userId: string = req.cookies["userid"];
   if (!userId) {
     res.sendStatus(403);
     return;
