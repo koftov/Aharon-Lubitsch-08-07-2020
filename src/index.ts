@@ -1,8 +1,11 @@
 import * as express from 'express';
 import * as path from 'path';
+import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
 
-import { requestLoggerMiddleware } from './request.logger.middleware';
+import { requestLoggerMiddleware } from './middlewares/request.logger.middleware';
 import taskRoutes from './routes/tasks';
+import userRoutes from './routes/users';
 
 // initialize app
 const app: express.Application = express();
@@ -10,12 +13,15 @@ const app: express.Application = express();
 require('./db');
 
 // middlewares
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(requestLoggerMiddleware);
 
 // routes
 app.use(taskRoutes);
+app.use(userRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

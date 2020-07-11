@@ -63,22 +63,20 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           closeIcon
         >
           <Modal.Content>
-            <Table textAlign="right">
-              <Table.Row>
-                <Table.Cell>שם משתמש</Table.Cell>
-                <Table.Cell>טלפון</Table.Cell>
-                <Table.Cell>מייל</Table.Cell>
-                <Table.Cell>תאריך יצירת המשימה</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>{task.username}</Table.Cell>
-                <Table.Cell>{task.phone}</Table.Cell>
-                <Table.Cell>{task.email}</Table.Cell>
-                <Table.Cell>
-                  <Moment format="DD.MM.YYYY">{task.createdAt}</Moment>
-                </Table.Cell>
-              </Table.Row>
-            </Table>
+            <Table.Row>
+              <Table.Cell>שם משתמש</Table.Cell>
+              <Table.Cell>טלפון</Table.Cell>
+              <Table.Cell>מייל</Table.Cell>
+              <Table.Cell>תאריך יצירת המשימה</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>{task.username}</Table.Cell>
+              <Table.Cell>{task.phone}</Table.Cell>
+              <Table.Cell>{task.email}</Table.Cell>
+              <Table.Cell>
+                <Moment format="DD.MM.YYYY">{task.createdAt}</Moment>
+              </Table.Cell>
+            </Table.Row>
           </Modal.Content>
         </Modal>
       </Table.Cell>

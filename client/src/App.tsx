@@ -1,53 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { TaskList } from './TaskList/TaskList';
-import { Container, Input, Button } from 'semantic-ui-react';
+import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import TaskForm from './TaskForm/TaskForm';
+import Home from './Home/Home';
+import Navbar from './Navbar/Navbar';
+import Auth from './Auth/Auth';
+import { UserContext } from './user-context';
 import './App.scss';
+import AppLoader from './AppLoader/AppLoader';
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState([]);
-  const [showModalForm, setShowModalForm] = useState(false);
-  const [taskToEdit, setTaskToEdit] = useState(null);
-
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoding] = useState<boolean>(true);
   useEffect(() => {
-    axios('/task').then((res) => setTasks(res.data));
+    axios('/me')
+      .then((res) => {
+        setUser(res.data);
+        setLoding(false);
+      })
+      .catch((err) => {
+        setUser(null);
+        setLoding(false);
+      });
   }, []);
 
   return (
-    <Container>
-      <h1 className="ui green header">ניהול משימות</h1>
-      <Input
-        className="left icon"
-        icon={{ name: 'search' }}
-        fluid
-        placeholder="חיפוש משימה"
-      />
-      <span style={{ padding: 12, fontWeight: 'bold' }}>
-        רשימת הלקוחות שלך ({tasks.length})
-      </span>
-      <Button
-        className="ui green button"
-        style={{ float: 'left', marginBottom: 10 }}
-        onClick={() => setShowModalForm(true)}
-      >
-        משימה חדשה
-      </Button>
-      <TaskForm
-        setTasks={setTasks}
-        tasks={tasks}
-        showModalForm={showModalForm}
-        setShowModalForm={setShowModalForm}
-        taskToEdit={taskToEdit}
-        setTaskToEdit={setTaskToEdit}
-      />
-      <TaskList
-        setTasks={setTasks}
-        setTaskToEdit={setTaskToEdit}
-        tasks={tasks}
-        setShowModalForm={setShowModalForm}
-      />
-    </Container>
+    <UserContext.Provider value={{ user, setUser }}>
+      {loading && <AppLoader />}
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Auth} />
+        <Route path="/signup" component={Auth} />
+      </Switch>
+    </UserContext.Provider>
   );
 };
 

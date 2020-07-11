@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import axios from 'axios';
 import { Form, Input, Button, Modal } from 'semantic-ui-react';
 
-const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 interface TaskFormProps {
   tasks: Array<Task>;
@@ -27,6 +27,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   taskToEdit,
   setTaskToEdit,
 }) => {
+  const [loading, setLoading] = useState(false);
   const [task, setTask] = useState<Task>(initialNewTaskValue);
   const [error, setError] = useState<string>('');
 
@@ -42,7 +43,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
       setError('אנא הכנס כתובת דוא"ל חוקית');
       return;
     }
-
+    setLoading(true);
     if (taskToEdit) {
       const res = await axios.put<Task>(`/task/${taskToEdit._id}`, task);
       task.username = '';
@@ -60,6 +61,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
       setShowModalForm(false);
       setTasks([...tasks, res.data]);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -92,7 +94,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
     >
       <Modal.Header>{!taskToEdit ? 'הוספת' : 'עריכת'} משימה</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit} className=" ui aligned right">
+        <Form
+          onSubmit={handleSubmit}
+          className=" ui aligned right"
+          loading={loading}
+        >
           <Form.Group widths="equal" dir="rtl">
             <Form.Field
               control={Input}
@@ -121,7 +127,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
             />
           </Form.Group>
           <p style={{ color: 'red' }}>{error}</p>
-          <Form.Field control={Button} type="submit">
+          <Form.Field
+            control={Button}
+            type="submit"
+            disabled={!task.email || !task.username || !task.phone}
+          >
             {!taskToEdit ? 'הוספת' : 'עריכת'} משימה
           </Form.Field>
         </Form>

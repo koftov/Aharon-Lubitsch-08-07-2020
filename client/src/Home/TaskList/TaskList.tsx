@@ -16,7 +16,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   setShowModalForm,
 }) => {
   return (
-    <Table selectable textAlign="right">
+    <Table unstackable selectable textAlign="right">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell width={2}>

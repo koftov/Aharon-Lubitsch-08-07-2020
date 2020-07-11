@@ -6,4 +6,9 @@ type Task = {
   _id?: string | undefined;
 };
 
-type ToggleTask = (selectedTask: Task) => void;
+type User = {
+  email?: string;
+  password?: string;
+  _id?: string | undefined;
+  role?: string | undefined;
+};

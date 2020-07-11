@@ -4,6 +4,7 @@ export interface ITask extends Document {
   username: string;
   phone: string;
   email: string;
+  userId: string;
   createdAt: string;
 }
 
@@ -15,4 +16,4 @@ const TaskSchema = new Schema({
   createdAt: { type: Date, default: Date.now() },
 });
 
-export default model('Task', TaskSchema);
+export default model<ITask>('Task', TaskSchema);
