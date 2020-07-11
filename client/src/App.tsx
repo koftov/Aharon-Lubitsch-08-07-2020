@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import axios from 'axios';
-import Home from './Home/Home';
-import Navbar from './Navbar/Navbar';
-import Auth from './Auth/Auth';
-import { UserContext } from './user-context';
-import './App.scss';
-import AppLoader from './AppLoader/AppLoader';
+import React, { useState, useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
+import axios from "axios";
+import Home from "./Home/Home";
+import Navbar from "./Navbar/Navbar";
+import Auth from "./Auth/Auth";
+import { UserContext } from "./user-context";
+import "./App.scss";
+import AppLoader from "./AppLoader/AppLoader";
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoding] = useState<boolean>(true);
   useEffect(() => {
-    axios('/me')
+    axios("/me")
       .then((res) => {
         setUser(res.data);
         setLoding(false);
@@ -28,9 +28,9 @@ const App: React.FC = () => {
       {loading && <AppLoader />}
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Auth} />
-        <Route path="/signup" component={Auth} />
+        <Route exact path='/' component={Home} />
+        <Route path='/login' component={Auth} />
+        <Route path='/signup' component={Auth} />
       </Switch>
     </UserContext.Provider>
   );
