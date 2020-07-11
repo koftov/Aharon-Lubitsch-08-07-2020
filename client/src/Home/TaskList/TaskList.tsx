@@ -1,6 +1,6 @@
-import React from 'react';
-import { Table } from 'semantic-ui-react';
-import { TaskItem } from './TaskItem/TaskItem';
+import React from "react";
+import { Table } from "semantic-ui-react";
+import { TaskItem } from "./TaskItem/TaskItem";
 
 interface TaskListProps {
   tasks: Array<Task>;
@@ -16,11 +16,11 @@ export const TaskList: React.FC<TaskListProps> = ({
   setShowModalForm,
 }) => {
   return (
-    <Table unstackable selectable textAlign="right">
+    <Table unstackable selectable textAlign='right'>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell width={2}>
-            <input type="checkbox" /> שם משתמש
+            <input type='checkbox' /> שם משתמש
           </Table.HeaderCell>
           <Table.HeaderCell width={2}>טלפון</Table.HeaderCell>
           <Table.HeaderCell width={4}>מייל</Table.HeaderCell>

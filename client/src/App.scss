@@ -15,3 +15,28 @@ html {
 .left.icon {
   margin-bottom: 50px !important;
 }
+
+.ui.green.button {
+  margin: 20px 0px;
+}
+
+.table-div {
+  overflow-x: scroll !important;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.actions-cell {
+  display: flex;
+}
+
+div > span {
+  font-weight: bold;
+  margin: 25px 0px;
+}
+
+.container {
+  max-width: 100% !important;
+}

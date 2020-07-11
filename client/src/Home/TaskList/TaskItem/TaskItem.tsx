@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Table, Modal } from 'semantic-ui-react';
-import Moment from 'react-moment';
-import axios, { AxiosResponse } from 'axios';
+import React, { useState } from "react";
+import { Table, Modal } from "semantic-ui-react";
+import Moment from "react-moment";
+import axios, { AxiosResponse } from "axios";
 
 interface TaskItemProps {
   task: Task;
@@ -34,27 +34,27 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   return (
     <Table.Row>
       <Table.Cell>
-        <input type="checkbox" /> {task.username}
+        <input type='checkbox' /> {task.username}
       </Table.Cell>
       <Table.Cell>{task.phone}</Table.Cell>
       <Table.Cell>{task.email}</Table.Cell>
       <Table.Cell>
-        <Moment format="DD.MM.YYYY">{task.createdAt}</Moment>
+        <Moment format='DD.MM.YYYY'>{task.createdAt}</Moment>
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='actions-cell'>
         <i
-          title="צפייה"
-          className="eye icon"
+          title='צפייה'
+          className='eye icon'
           onClick={() => setShowTaskModal(true)}
         ></i>
         <i
-          title="עריכה"
-          className="pencil alternate icon"
+          title='עריכה'
+          className='pencil alternate icon'
           onClick={handleEdit}
         ></i>
         <i
-          title="מחיקה"
-          className="trash alternate icon"
+          title='מחיקה'
+          className='trash alternate icon'
           onClick={() => deleteTask(task)}
         ></i>
         <Modal
@@ -74,7 +74,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               <Table.Cell>{task.phone}</Table.Cell>
               <Table.Cell>{task.email}</Table.Cell>
               <Table.Cell>
-                <Moment format="DD.MM.YYYY">{task.createdAt}</Moment>
+                <Moment format='DD.MM.YYYY'>{task.createdAt}</Moment>
               </Table.Cell>
             </Table.Row>
           </Modal.Content>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
 import Home from "./Home/Home";
 import Navbar from "./Navbar/Navbar";
@@ -9,30 +9,37 @@ import "./App.scss";
 import AppLoader from "./AppLoader/AppLoader";
 
 const App: React.FC = () => {
+  const history = useHistory();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoding] = useState<boolean>(true);
+  const [loading, setLoding] = useState<boolean>(false);
   useEffect(() => {
-    axios("/me")
-      .then((res) => {
+    async function getUser() {
+      setLoding(true);
+      try {
+        const res = await axios("/me");
+        console.log(res.data);
         setUser(res.data);
         setLoding(false);
-      })
-      .catch((err) => {
-        setUser(null);
+      } catch (err) {
         setLoding(false);
-      });
-  }, []);
+        history.push("/login");
+      }
+    }
+    getUser();
+  }, [history]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {loading && <AppLoader />}
-      <Navbar />
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <Route path='/login' component={Auth} />
-        <Route path='/signup' component={Auth} />
-      </Switch>
-    </UserContext.Provider>
+    <div className='App'>
+      <UserContext.Provider value={{ user, setUser }}>
+        {loading && <AppLoader />}
+        <Navbar />
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/login' component={Auth} />
+          <Route path='/signup' component={Auth} />
+        </Switch>
+      </UserContext.Provider>
+    </div>
   );
 };
 

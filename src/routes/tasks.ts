@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from "express";
 
-import Task from '../models/task';
-import auth from '../middlewares/auth';
+import Task from "../models/task";
+import auth from "../middlewares/auth";
+import { UserRole } from "../models/user";
 
 const taskRoutes = Router();
 
@@ -9,16 +10,16 @@ const taskRoutes = Router();
 // @desc      Get all tasks
 // @access    Public
 taskRoutes.get(
-  '/task/',
+  "/task/",
   auth,
   async (req: any, res: Response, next: NextFunction) => {
     let tasks;
     try {
-      if (req.user.role == 'admin') {
-        tasks = await Task.find();
-      } else {
-        tasks = await Task.find({ userId: req.user._id });
+      let query: any = {};
+      if (req.user.role === UserRole.User) {
+        query.userId = req.user._id;
       }
+      tasks = await Task.find(query);
       res.json(tasks);
     } catch (err) {
       console.error(err);
@@ -32,7 +33,7 @@ taskRoutes.get(
 // @access    Private
 
 taskRoutes.post(
-  '/task',
+  "/task",
   auth,
   async (req: any, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
@@ -58,7 +59,7 @@ taskRoutes.post(
 // @desc      Update task
 // @access    Private
 taskRoutes.put(
-  '/task/:id',
+  "/task/:id",
   auth,
   async (req: any, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
@@ -76,10 +77,10 @@ taskRoutes.put(
     try {
       // check if the task exists
       let task = await Task.findById(req.params.id);
-      if (!task) return res.status(404).json({ msg: 'Task not found' });
+      if (!task) return res.status(404).json({ msg: "Task not found" });
 
       // check if the user is admin
-      if (req.user.role == 'admin') {
+      if (req.user.role == "admin") {
         task = await Task.findByIdAndUpdate(req.params.id, taskFields, {
           new: true,
         });
@@ -91,7 +92,7 @@ taskRoutes.put(
       if (task.userId.toString() != req.user._id) {
         res
           .status(401)
-          .json({ msg: 'You are not authorized to make this request' });
+          .json({ msg: "You are not authorized to make this request" });
         return;
       }
 
@@ -111,18 +112,18 @@ taskRoutes.put(
 // @access    Private
 
 taskRoutes.delete(
-  '/task/:id',
+  "/task/:id",
   auth,
   async (req: any, res: Response, next: NextFunction) => {
     try {
       // check if the task exists
       let task = await Task.findById(req.params.id);
-      if (!task) return res.status(404).json({ msg: 'Task not found' });
+      if (!task) return res.status(404).json({ msg: "Task not found" });
 
       // if user's admin delete the task
-      if (req.user.role == 'admin') {
+      if (req.user.role == "admin") {
         await Task.findByIdAndRemove(req.params.id);
-        res.json({ msg: 'Task removed' });
+        res.json({ msg: "Task removed" });
         return;
       }
 
@@ -130,12 +131,12 @@ taskRoutes.delete(
       if (task.userId.toString() != req.user._id) {
         res
           .status(401)
-          .json({ msg: 'You are not authorized to make this request' });
+          .json({ msg: "You are not authorized to make this request" });
         return;
       }
 
       await Task.findByIdAndRemove(req.params.id);
-      res.json({ msg: 'Task removed' });
+      res.json({ msg: "Task removed" });
     } catch (err) {
       console.error(err.message);
       res.sendStatus(500);

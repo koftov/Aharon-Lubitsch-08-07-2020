@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/user";
+import User, { IUser } from "../models/user";
 
 interface IGetUserAuthInfoRequest extends Request {
-  cookies: any;
-  user: any;
+  cookies: string;
+  user: IUser;
 }
 
 const auth = async (
