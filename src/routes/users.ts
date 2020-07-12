@@ -24,7 +24,7 @@ userRoutes.post(
     const newUser: IUser = new User({ username, password });
     newUser.password = md5(newUser.password);
     try {
-      const createdUser: IUser = await newUser.save();
+      const createdUser = await newUser.save();
       const token: string = jwt.sign({ userId: createdUser._id }, keys.secret, {
         expiresIn: 60 * 60 * 24,
       });
