@@ -57,20 +57,26 @@ export const TaskItem: React.FC<TaskItemProps> = ({
         ></i>
         <Modal open={showTaskModal} onClose={() => setShowTaskModal(false)}>
           <Modal.Content>
-            <Table.Row>
-              <Table.Cell>שם משתמש</Table.Cell>
-              <Table.Cell>טלפון</Table.Cell>
-              <Table.Cell>מייל</Table.Cell>
-              <Table.Cell>תאריך יצירת המשימה</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>{task.username}</Table.Cell>
-              <Table.Cell>{task.phone}</Table.Cell>
-              <Table.Cell>{task.email}</Table.Cell>
-              <Table.Cell>
-                <Moment format='DD.MM.YYYY'>{task.createdAt}</Moment>
-              </Table.Cell>
-            </Table.Row>
+            <Table selectable textAlign='right'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>שם משתמש</Table.HeaderCell>
+                  <Table.HeaderCell>טלפון</Table.HeaderCell>
+                  <Table.HeaderCell>מייל</Table.HeaderCell>
+                  <Table.HeaderCell>תאריך יצירת המשימה</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell>{task.username}</Table.Cell>
+                  <Table.Cell>{task.phone}</Table.Cell>
+                  <Table.Cell>{task.email}</Table.Cell>
+                  <Table.Cell>
+                    <Moment format='DD.MM.YYYY'>{task.createdAt}</Moment>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
           </Modal.Content>
         </Modal>
       </Table.Cell>
