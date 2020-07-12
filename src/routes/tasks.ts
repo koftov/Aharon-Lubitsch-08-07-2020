@@ -12,9 +12,24 @@ interface TaskFields {
   email?: string | undefined;
 }
 
-interface TaskRequest extends Request {
+interface GetTasksRequest extends Request {
+  user: IUser;
+}
+
+interface CreateTaskRequest extends Request {
   user: IUser;
   body: TaskFields;
+  params: { id: string };
+}
+
+interface UpdateTaskRequest extends Request {
+  user: IUser;
+  body: TaskFields;
+  params: { id: string };
+}
+
+interface DeleteTaskRequest extends Request {
+  user: IUser;
   params: { id: string };
 }
 
@@ -30,7 +45,7 @@ const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+)
 taskRoutes.get(
   "/task/",
   auth,
-  async (req: TaskRequest, res: Response, next: NextFunction) => {
+  async (req: GetTasksRequest, res: Response, next: NextFunction) => {
     let tasks;
     try {
       let query: IQuery = {};
@@ -53,7 +68,7 @@ taskRoutes.get(
 taskRoutes.post(
   "/task",
   auth,
-  async (req: TaskRequest, res: Response, next: NextFunction) => {
+  async (req: CreateTaskRequest, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
     try {
       const newTask = new Task({
@@ -79,7 +94,7 @@ taskRoutes.post(
 taskRoutes.put(
   "/task/:id",
   auth,
-  async (req: TaskRequest, res: Response, next: NextFunction) => {
+  async (req: UpdateTaskRequest, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
 
     if (!username || !phone || !regEmail.test(email)) {
@@ -132,7 +147,7 @@ taskRoutes.put(
 taskRoutes.delete(
   "/task/:id",
   auth,
-  async (req: TaskRequest, res: Response, next: NextFunction) => {
+  async (req: DeleteTaskRequest, res: Response, next: NextFunction) => {
     try {
       // check if the task exists
       let task = await Task.findById(req.params.id);
