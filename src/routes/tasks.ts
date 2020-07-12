@@ -14,6 +14,8 @@ interface TaskFields {
 
 interface TaskRequest extends Request {
   user: IUser;
+  body: any;
+  params: any;
 }
 
 interface IQuery {
