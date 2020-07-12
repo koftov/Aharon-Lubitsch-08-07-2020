@@ -21,7 +21,7 @@ userRoutes.post(
   "/signup",
   async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
-    const newUser: IUser = new User({ username, password });
+    const newUser = new User({ username, password });
     newUser.password = md5(newUser.password);
     try {
       const createdUser = await newUser.save();
@@ -50,7 +50,7 @@ userRoutes.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
     try {
-      const user: IUser = await User.findOne({
+      const user = await User.findOne({
         username,
         password: md5(password),
       });
