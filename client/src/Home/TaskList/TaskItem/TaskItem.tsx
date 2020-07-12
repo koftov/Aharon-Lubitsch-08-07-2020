@@ -33,7 +33,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
   return (
     <Table.Row>
-      <Table.Cell className='actions-cell'>{task.username}</Table.Cell>
+      <Table.Cell>{task.username}</Table.Cell>
       <Table.Cell>{task.phone}</Table.Cell>
       <Table.Cell>{task.email}</Table.Cell>
       <Table.Cell>

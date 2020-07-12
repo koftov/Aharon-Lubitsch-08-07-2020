@@ -31,6 +31,7 @@ userRoutes.post(
       res.cookie(keys.cookieName, token);
       res.status(201).json(createdUser);
     } catch (err) {
+      console.log(err);
       if (err.code === ERROR_DUPLICATE_VALUE) {
         res.status(409).json({ error: "username already exist" });
         return;
