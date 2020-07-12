@@ -4,11 +4,8 @@ import { Input, Button, Container } from "semantic-ui-react";
 import axios from "axios";
 import TaskForm from "./TaskForm/TaskForm";
 import { UserContext } from "../user-context";
-import { RouteComponentProps } from "react-router-dom";
 
-interface HomeProps extends RouteComponentProps {}
-
-const Home: React.FC<HomeProps> = (props) => {
+const Home = () => {
   const userContext = useContext(UserContext);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
