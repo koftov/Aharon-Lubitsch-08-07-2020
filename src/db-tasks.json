@@ -1,0 +1,57 @@
+[{
+  "_id": {
+    "$oid": "5f0a6a9ae13e9041004fa4ed"
+  },
+  "createdAt": {
+    "$date": "2020-07-12T01:41:14.902Z"
+  },
+  "username": "שם משתמש",
+  "phone": "0545454546",
+  "email": "mail@mail.com",
+  "userId": {
+    "$oid": "5f0a6a85e13e9041004fa4ec"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f0a6ab5e13e9041004fa4ee"
+  },
+  "createdAt": {
+    "$date": "2020-07-12T01:41:14.902Z"
+  },
+  "username": "שם משתמש",
+  "phone": "054589745",
+  "email": "somebody@gmail.com",
+  "userId": {
+    "$oid": "5f0a6a85e13e9041004fa4ec"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f0a6ae0e13e9041004fa4ef"
+  },
+  "createdAt": {
+    "$date": "2020-07-12T01:41:14.902Z"
+  },
+  "username": "שם משתמש",
+  "phone": "0548745684",
+  "email": "mail@mail.com",
+  "userId": {
+    "$oid": "5f0a6a78e13e9041004fa4eb"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f0a6aede13e9041004fa4f0"
+  },
+  "createdAt": {
+    "$date": "2020-07-12T01:41:14.902Z"
+  },
+  "username": "שם משתמש",
+  "phone": "0559384895",
+  "email": "ahronlu@gmail.com",
+  "userId": {
+    "$oid": "5f0a6a78e13e9041004fa4eb"
+  },
+  "__v": 0
+}]
