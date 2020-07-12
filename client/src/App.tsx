@@ -8,7 +8,7 @@ import { UserContext } from "./user-context";
 import "./App.scss";
 import AppLoader from "./AppLoader/AppLoader";
 
-const App: React.FC = () => {
+const App = () => {
   const history = useHistory();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoding] = useState<boolean>(false);
@@ -17,7 +17,6 @@ const App: React.FC = () => {
       setLoding(true);
       try {
         const res = await axios("/me");
-        console.log(res.data);
         setUser(res.data);
         setLoding(false);
       } catch (err) {

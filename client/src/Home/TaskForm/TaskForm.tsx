@@ -6,11 +6,11 @@ const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+)
 
 interface TaskFormProps {
   tasks: Array<Task>;
-  setTasks: Function;
+  setTasks(tasks: Task[]): void;
   showModalForm: boolean;
-  setShowModalForm: Function;
+  setShowModalForm: (show: boolean) => void;
   taskToEdit: Task | null;
-  setTaskToEdit: Function;
+  setTaskToEdit: (task: Task | null) => void;
 }
 
 const initialNewTaskValue: Task = {
@@ -29,10 +29,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState<Task>(initialNewTaskValue);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setError("");
+    setError(null);
     e.preventDefault();
     if (!task.email || !task.phone || !task.username) {
       setError("אנא הכנס את כל השדות");
@@ -82,7 +82,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     setShowModalForm(false);
     setTaskToEdit(null);
     setTask(initialNewTaskValue);
-    setError("");
+    setError(null);
   };
 
   return (

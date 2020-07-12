@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Form, Container, Input, Button } from "semantic-ui-react";
 import { UserContext } from "../user-context";
 
@@ -13,7 +13,7 @@ const Auth = (props: AuthProps) => {
   const userContext = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>({ username: "", password: "" });
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -22,7 +22,7 @@ const Auth = (props: AuthProps) => {
   const request = props.match.path === "/login" ? "/login" : "/signup";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setError("");
+    setError(null);
     e.preventDefault();
     if (!user.username || !user.password) {
       setError("אנא הכנס את כל השדות");

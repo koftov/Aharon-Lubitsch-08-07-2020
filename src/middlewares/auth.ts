@@ -23,7 +23,6 @@ const auth = async (
     return;
   }
   const payload = jwt.verify(token, keys.secret) as IPayload;
-  console.log(payload);
 
   try {
     const user = await User.findById(payload.userId);

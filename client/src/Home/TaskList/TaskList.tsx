@@ -4,9 +4,9 @@ import { TaskItem } from "./TaskItem/TaskItem";
 
 interface TaskListProps {
   tasks: Array<Task>;
-  setTasks: Function;
-  setTaskToEdit: Function;
-  setShowModalForm: Function;
+  setTasks: (tasks: Task[]) => void;
+  setTaskToEdit: (task: Task) => void;
+  setShowModalForm: (show: boolean) => void;
 }
 
 export const TaskList: React.FC<TaskListProps> = ({

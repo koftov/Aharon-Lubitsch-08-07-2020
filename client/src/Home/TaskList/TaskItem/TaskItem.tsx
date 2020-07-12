@@ -6,9 +6,9 @@ import axios, { AxiosResponse } from "axios";
 interface TaskItemProps {
   task: Task;
   tasks: Array<Task>;
-  setTasks: Function;
-  setTaskToEdit: Function;
-  setShowModalForm: Function;
+  setTasks: (tasks: Task[]) => void;
+  setTaskToEdit: (task: Task) => void;
+  setShowModalForm: (show: boolean) => void;
 }
 
 export const TaskItem: React.FC<TaskItemProps> = ({
@@ -57,7 +57,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
         ></i>
         <Modal open={showTaskModal} onClose={() => setShowTaskModal(false)}>
           <Modal.Content>
-            <Table selectable textAlign='right'>
+            <Table selectable unstackable textAlign='right'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>שם משתמש</Table.HeaderCell>
