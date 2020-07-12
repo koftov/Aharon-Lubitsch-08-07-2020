@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import axios from 'axios';
-import { Form, Input, Button, Modal } from 'semantic-ui-react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import axios from "axios";
+import { Form, Input, Button, Modal } from "semantic-ui-react";
 
 const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -14,9 +14,9 @@ interface TaskFormProps {
 }
 
 const initialNewTaskValue: Task = {
-  username: '',
-  phone: '',
-  email: '',
+  username: "",
+  phone: "",
+  email: "",
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -29,13 +29,13 @@ const TaskForm: React.FC<TaskFormProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState<Task>(initialNewTaskValue);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setError('');
+    setError("");
     e.preventDefault();
     if (!task.email || !task.phone || !task.username) {
-      setError('אנא הכנס את כל השדות');
+      setError("אנא הכנס את כל השדות");
       return;
     }
 
@@ -46,9 +46,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
     setLoading(true);
     if (taskToEdit) {
       const res = await axios.put<Task>(`/task/${taskToEdit._id}`, task);
-      task.username = '';
-      task.phone = '';
-      task.email = '';
+      task.username = "";
+      task.phone = "";
+      task.email = "";
       setShowModalForm(false);
       setTasks(
         tasks.map((task) => (task._id === res.data._id ? res.data : task))
@@ -56,7 +56,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
       setTaskToEdit(null);
     } else {
-      const res = await axios.post<Task>('/task', task);
+      const res = await axios.post<Task>("/task", task);
       setTask(initialNewTaskValue);
       setShowModalForm(false);
       setTasks([...tasks, res.data]);
@@ -82,57 +82,56 @@ const TaskForm: React.FC<TaskFormProps> = ({
     setShowModalForm(false);
     setTaskToEdit(null);
     setTask(initialNewTaskValue);
-    setError('');
+    setError("");
   };
 
   return (
     <Modal
       open={showModalForm}
       onClose={closeModal}
-      style={{ textAlign: 'right' }}
-      closeIcon
+      style={{ textAlign: "right" }}
     >
-      <Modal.Header>{!taskToEdit ? 'הוספת' : 'עריכת'} משימה</Modal.Header>
+      <Modal.Header>{!taskToEdit ? "הוספת" : "עריכת"} משימה</Modal.Header>
       <Modal.Content>
         <Form
           onSubmit={handleSubmit}
-          className=" ui aligned right"
+          className=' ui aligned right'
           loading={loading}
         >
-          <Form.Group widths="equal" dir="rtl">
+          <Form.Group widths='equal' dir='rtl'>
             <Form.Field
               control={Input}
               value={task.username}
-              type="text"
-              placeholder="שם משתמש"
+              type='text'
+              placeholder='שם משתמש'
               onChange={handleChange}
-              name="username"
+              name='username'
             />
             <Form.Field
               control={Input}
               value={task.phone}
-              type="number"
-              placeholder="טלפון"
+              type='number'
+              placeholder='טלפון'
               onChange={handleChange}
-              name="phone"
+              name='phone'
             />
             <Form.Field
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: "right" }}
               control={Input}
               value={task.email}
-              type="email"
-              placeholder="מייל"
+              type='email'
+              placeholder='מייל'
               onChange={handleChange}
-              name="email"
+              name='email'
             />
           </Form.Group>
-          <p style={{ color: 'red' }}>{error}</p>
+          <p style={{ color: "red" }}>{error}</p>
           <Form.Field
             control={Button}
-            type="submit"
+            type='submit'
             disabled={!task.email || !task.username || !task.phone}
           >
-            {!taskToEdit ? 'הוספת' : 'עריכת'} משימה
+            {!taskToEdit ? "הוספת" : "עריכת"} משימה
           </Form.Field>
         </Form>
       </Modal.Content>

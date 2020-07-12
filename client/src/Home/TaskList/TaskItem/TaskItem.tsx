@@ -33,9 +33,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
 
   return (
     <Table.Row>
-      <Table.Cell>
-        <input type='checkbox' /> {task.username}
-      </Table.Cell>
+      <Table.Cell className='actions-cell'>{task.username}</Table.Cell>
       <Table.Cell>{task.phone}</Table.Cell>
       <Table.Cell>{task.email}</Table.Cell>
       <Table.Cell>
@@ -57,11 +55,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
           className='trash alternate icon'
           onClick={() => deleteTask(task)}
         ></i>
-        <Modal
-          open={showTaskModal}
-          onClose={() => setShowTaskModal(false)}
-          closeIcon
-        >
+        <Modal open={showTaskModal} onClose={() => setShowTaskModal(false)}>
           <Modal.Content>
             <Table.Row>
               <Table.Cell>שם משתמש</Table.Cell>

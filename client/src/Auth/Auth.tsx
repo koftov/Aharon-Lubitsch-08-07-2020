@@ -5,8 +5,6 @@ import { UserContext } from "../user-context";
 
 import axios from "axios";
 
-const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 interface AuthProps extends RouteComponentProps {
   path: string;
 }
@@ -14,7 +12,7 @@ interface AuthProps extends RouteComponentProps {
 const Auth = (props: AuthProps) => {
   const userContext = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
-  const [user, setUser] = useState<User>({ email: "", password: "" });
+  const [user, setUser] = useState<User>({ username: "", password: "" });
   const [error, setError] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,13 +24,8 @@ const Auth = (props: AuthProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setError("");
     e.preventDefault();
-    if (!user.email || !user.password) {
+    if (!user.username || !user.password) {
       setError("אנא הכנס את כל השדות");
-      return;
-    }
-    if (!regEmail.test(user.email)) {
-      setLoading(false);
-      setError('אנא הכנס כתובת דוא"ל חוקית');
       return;
     }
     setLoading(true);
@@ -45,7 +38,7 @@ const Auth = (props: AuthProps) => {
       }
     } catch (err) {
       setLoading(false);
-      setError("אימייל או סיסמא לא חוקיים, אנא נסה שוב.");
+      setError("שם משתמש או סיסמא לא חוקיים, אנא נסה שוב.");
     }
   };
 
@@ -57,9 +50,9 @@ const Auth = (props: AuthProps) => {
       <Form onSubmit={handleSubmit} loading={loading}>
         <Form.Field
           control={Input}
-          placeholder='אימייל'
-          type='email'
-          name='email'
+          placeholder='שם משתמש'
+          type='username'
+          name='username'
           onChange={handleChange}
         />
         <Form.Field
@@ -68,12 +61,13 @@ const Auth = (props: AuthProps) => {
           type='password'
           name='password'
           onChange={handleChange}
+          minLength='6'
         />
         <p style={{ color: "red" }}>{error}</p>
         <Form.Field
           control={Button}
           type='submit'
-          disabled={!user.password || !user.email}
+          disabled={!user.password || !user.username}
         >
           {status}
         </Form.Field>

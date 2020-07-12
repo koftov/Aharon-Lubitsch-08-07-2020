@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import User, { IUser } from "../models/user";
+import { keys } from "../config/keys";
+import * as jwt from "jsonwebtoken";
+
+export interface IPayload {
+  userId: string;
+}
 
 interface IGetUserAuthInfoRequest extends Request {
   cookies: string;
@@ -11,14 +17,16 @@ const auth = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userId: string = req.cookies["userid"];
-  if (!userId) {
+  const token: string = req.cookies[keys.cookieName];
+  if (!token) {
     res.sendStatus(403);
     return;
   }
+  const payload = jwt.verify(token, keys.secret) as IPayload;
+  console.log(payload);
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(payload.userId);
 
     if (!user) {
       res.sendStatus(403);

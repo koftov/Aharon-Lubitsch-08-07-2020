@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 import * as md5 from "md5";
 import User, { IUser } from "../models/user";
 import auth from "../middlewares/auth";
+import * as jwt from "jsonwebtoken";
+import { keys } from "../config/keys";
 
 const ERROR_DUPLICATE_VALUE: number = 11000;
 
@@ -18,12 +20,15 @@ const userRoutes = Router();
 userRoutes.post(
   "/signup",
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-    const newUser = new User({ email, password });
+    const { username, password } = req.body;
+    const newUser: IUser = new User({ username, password });
     newUser.password = md5(newUser.password);
     try {
       const createdUser: IUser = await newUser.save();
-      res.cookie("userid", createdUser._id);
+      const token: string = jwt.sign({ userId: createdUser._id }, keys.secret, {
+        expiresIn: 60 * 60 * 24,
+      });
+      res.cookie(keys.cookieName, token);
       res.status(201).json(createdUser);
     } catch (err) {
       if (err.code === ERROR_DUPLICATE_VALUE) {
@@ -43,18 +48,21 @@ userRoutes.post(
 userRoutes.post(
   "/login",
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     try {
-      const user = await User.findOne({
-        email,
+      const user: IUser = await User.findOne({
+        username,
         password: md5(password),
       });
       if (!user) {
         res.sendStatus(401);
         return;
       }
+      const token: string = jwt.sign({ userId: user._id }, keys.secret, {
+        expiresIn: 60 * 60 * 24,
+      });
       // success
-      res.cookie("userid", user._id);
+      res.cookie(keys.cookieName, token);
       res.json(user);
     } catch (err) {
       res.sendStatus(400);
@@ -75,7 +83,7 @@ userRoutes.get(
 userRoutes.post(
   "/logout",
   (req: Request, res: Response, next: NextFunction) => {
-    res.clearCookie("userid");
+    res.clearCookie(keys.cookieName);
     res.sendStatus(200);
   }
 );

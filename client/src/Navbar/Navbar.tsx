@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Menu, Container } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../user-context";
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
         <>
           <Menu.Item as={Link} to='/'>
             שלום {userContext.user.role === "admin" ? "מנהל" : "משתמש"}{" "}
-            {userContext.user.email}
+            {userContext.user.username}
           </Menu.Item>
           <Menu.Item onClick={logout}>התנתקות</Menu.Item>
         </>

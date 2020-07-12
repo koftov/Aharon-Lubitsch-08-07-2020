@@ -1,11 +1,11 @@
-import { Schema, model, Types, Document } from 'mongoose';
+import { Schema, model, Types, Document } from "mongoose";
 
 export interface ITask extends Document {
-  username: string;
-  phone: string;
-  email: string;
-  userId: string;
-  createdAt: string;
+  username?: string;
+  phone?: string;
+  email?: string;
+  userId?: string;
+  createdAt?: string;
 }
 
 const TaskSchema = new Schema({
@@ -16,4 +16,4 @@ const TaskSchema = new Schema({
   createdAt: { type: Date, default: Date.now() },
 });
 
-export default model<ITask>('Task', TaskSchema);
+export default model<ITask>("Task", TaskSchema);

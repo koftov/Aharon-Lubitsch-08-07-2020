@@ -19,9 +19,7 @@ export const TaskList: React.FC<TaskListProps> = ({
     <Table unstackable selectable textAlign='right'>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell width={2}>
-            <input type='checkbox' /> שם משתמש
-          </Table.HeaderCell>
+          <Table.HeaderCell width={2}>שם משתמש</Table.HeaderCell>
           <Table.HeaderCell width={2}>טלפון</Table.HeaderCell>
           <Table.HeaderCell width={4}>מייל</Table.HeaderCell>
           <Table.HeaderCell width={4}>תאריך יצירת המשימה</Table.HeaderCell>

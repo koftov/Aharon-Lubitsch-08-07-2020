@@ -7,7 +7,7 @@ type Task = {
 };
 
 type User = {
-  email?: string;
+  username?: string;
   password?: string;
   _id?: string | undefined;
   role?: string | undefined;

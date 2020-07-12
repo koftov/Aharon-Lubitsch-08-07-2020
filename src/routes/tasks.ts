@@ -1,10 +1,26 @@
 import { Router, Request, Response, NextFunction } from "express";
-
-import Task from "../models/task";
+import Task, { ITask } from "../models/task";
 import auth from "../middlewares/auth";
+import { IUser } from "../models/user";
 import { UserRole } from "../models/user";
 
 const taskRoutes = Router();
+
+interface TaskFields {
+  username?: string | undefined;
+  phone?: string | undefined;
+  email?: string | undefined;
+}
+
+interface TaskRequest extends Request {
+  user: IUser;
+}
+
+interface IQuery {
+  userId?: string;
+}
+
+const regEmail: RegExp = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // @route     GET /tasks/
 // @desc      Get all tasks
@@ -12,10 +28,10 @@ const taskRoutes = Router();
 taskRoutes.get(
   "/task/",
   auth,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: TaskRequest, res: Response, next: NextFunction) => {
     let tasks;
     try {
-      let query: any = {};
+      let query: IQuery = {};
       if (req.user.role === UserRole.User) {
         query.userId = req.user._id;
       }
@@ -35,7 +51,7 @@ taskRoutes.get(
 taskRoutes.post(
   "/task",
   auth,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: TaskRequest, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
     try {
       const newTask = new Task({
@@ -61,15 +77,15 @@ taskRoutes.post(
 taskRoutes.put(
   "/task/:id",
   auth,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: TaskRequest, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
 
-    if (!username || !phone || !email) {
+    if (!username || !phone || !regEmail.test(email)) {
       res.sendStatus(400);
       return;
     }
     // Build task object
-    const taskFields: any = {};
+    const taskFields: TaskFields = {};
     taskFields.username = username;
     taskFields.phone = phone;
     taskFields.email = email;
@@ -114,7 +130,7 @@ taskRoutes.put(
 taskRoutes.delete(
   "/task/:id",
   auth,
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: TaskRequest, res: Response, next: NextFunction) => {
     try {
       // check if the task exists
       let task = await Task.findById(req.params.id);
