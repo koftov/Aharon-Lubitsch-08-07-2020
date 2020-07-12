@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import { Form, Container, Input, Button } from "semantic-ui-react";
 import { UserContext } from "../user-context";
 
@@ -29,16 +29,20 @@ const Auth = (props: AuthProps) => {
       return;
     }
     setLoading(true);
-    const res = await axios.post<User>(request, user);
     try {
-      if (res.status === 201 || res.status === 200) {
-        setLoading(false);
-        userContext.setUser(res.data);
-        props.history.push("/");
-      }
+      const res = await axios.post<User>(request, user);
+      setLoading(false);
+      userContext.setUser(res.data);
+      props.history.push("/");
     } catch (err) {
       setLoading(false);
-      setError("שם משתמש או סיסמא לא חוקיים, אנא נסה שוב.");
+      if (request === "/login") {
+        setError("שם משתמש או סיסמא לא נכונים, אנא נסה שוב.");
+      } else {
+        setError(
+          "שם משתמש או סיסמא לא נכונים, או שהמשתמש כבר קיים במערכת אנא נסה שוב."
+        );
+      }
     }
   };
 

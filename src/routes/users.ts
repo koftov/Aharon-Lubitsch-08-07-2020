@@ -32,7 +32,7 @@ userRoutes.post(
       res.status(201).json(createdUser);
     } catch (err) {
       if (err.code === ERROR_DUPLICATE_VALUE) {
-        res.sendStatus(409);
+        res.status(409).json({ error: "username already exist" });
         return;
       }
       console.log(err);
