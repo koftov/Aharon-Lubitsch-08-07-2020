@@ -21,6 +21,7 @@ userRoutes.post(
   "/signup",
   async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
+    if(!username || !password) return res.json({error: "Please enter credentials"});
     const newUser = new User({ username, password });
     newUser.password = md5(newUser.password);
     try {
@@ -50,6 +51,7 @@ userRoutes.post(
   "/login",
   async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
+    if(!username || !password) return res.json({error: "Please enter credentials"});
     try {
       const user = await User.findOne({
         username,
