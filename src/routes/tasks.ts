@@ -70,6 +70,12 @@ taskRoutes.post(
   auth,
   async (req: CreateTaskRequest, res: Response, next: NextFunction) => {
     const { username, phone, email } = req.body;
+
+    if (!username || !phone || !regEmail.test(email)) {
+      res.sendStatus(400);
+      return;
+    }
+
     try {
       const newTask = new Task({
         username,
@@ -101,6 +107,7 @@ taskRoutes.put(
       res.sendStatus(400);
       return;
     }
+
     // Build task object
     const taskFields: TaskFields = {};
     taskFields.username = username;

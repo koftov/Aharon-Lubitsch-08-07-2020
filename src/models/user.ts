@@ -13,8 +13,8 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minlength: 6 },
+  username: { type: String, required: true, unique: true, trim: true },
+  password: { type: String, required: true, minlength: 6, trim: true },
   role: { type: UserRole, default: UserRole.User },
 });
 

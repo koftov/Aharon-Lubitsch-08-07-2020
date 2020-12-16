@@ -1,9 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import axios from "axios";
 import { Form, Container, Input, Button } from "semantic-ui-react";
 import { UserContext } from "../user-context";
-
-import axios from "axios";
 
 interface AuthProps extends RouteComponentProps {
   path: string;
@@ -54,23 +53,23 @@ const Auth = (props: AuthProps) => {
       <Form onSubmit={handleSubmit} loading={loading}>
         <Form.Field
           control={Input}
-          placeholder='שם משתמש'
-          type='username'
-          name='username'
+          placeholder="שם משתמש"
+          type="username"
+          name="username"
           onChange={handleChange}
         />
         <Form.Field
           control={Input}
-          placeholder='סיסמה'
-          type='password'
-          name='password'
+          placeholder="סיסמה"
+          type="password"
+          name="password"
           onChange={handleChange}
-          minLength='6'
+          minLength="6"
         />
         <p style={{ color: "red" }}>{error}</p>
         <Form.Field
           control={Button}
-          type='submit'
+          type="submit"
           disabled={!user.password || !user.username}
         >
           {status}
