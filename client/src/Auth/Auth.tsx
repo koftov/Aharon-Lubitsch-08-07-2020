@@ -1,8 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import axios from "axios";
 import { Form, Container, Input, Button } from "semantic-ui-react";
 import { UserContext } from "../user-context";
+
+import axios from "axios";
 
 interface AuthProps extends RouteComponentProps {
   path: string;

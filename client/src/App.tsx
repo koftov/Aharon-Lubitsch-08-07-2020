@@ -3,7 +3,7 @@ import { Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
 import Home from "./Home/Home";
 import Navbar from "./Navbar/Navbar";
-import Auth from "./Auth/Auth";
+import Auth from "./Auth/Auth2";
 import { UserContext } from "./user-context";
 import "./App.scss";
 import AppLoader from "./AppLoader/AppLoader";
@@ -28,14 +28,14 @@ const App = () => {
   }, [history]);
 
   return (
-    <div className='App'>
+    <div className="App">
       <UserContext.Provider value={{ user, setUser }}>
         {loading && <AppLoader />}
         <Navbar />
         <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/login' component={Auth} />
-          <Route path='/signup' component={Auth} />
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Auth} />
+          <Route path="/signup" component={Auth} />
         </Switch>
       </UserContext.Provider>
     </div>
