@@ -69,6 +69,7 @@ const Auth = (props: AuthProps) => {
         />
         <p style={{ color: "red" }}>{error}</p>
         <Form.Field
+          class="black"
           control={Button}
           type="submit"
           disabled={!user.password || !user.username}
